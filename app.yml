@@ -1,0 +1,13 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+# default values
+all:
+  sf_guard_plugin:
+    check_password_callable: [sfLDAP, auth]
+    
+  ldap:
+    host: '192.168.0.1'
+    port: 389
+    protocol: 3
+    dn: 'cn=users,dc=example,dc=com'
