@@ -18,17 +18,17 @@ class sfLDAP {
 		ldap_set_option(self::$ldap, LDAP_OPT_PROTOCOL_VERSION, sfConfig::get('app_ldap_protocol'));
 	}
 	
-	public static function auth($user, $password){
+	public static function authKerberos($user, $password){
 		self::connect();
 		$bind = ldap_bind(self::$ldap, "krbPrincipalName=$user@USERS," . sfConfig::get('app_ldap_dn'), $password);
 		
-		if($bind) {
-			$search = ldap_search(self::$ldap, "krbPrincipalName=$user@USERS," . sfConfig::get('app_ldap_default_dn'), "(uid=$user)");			
-			$data = ldap_get_entries(self::$ldap, $search);			
-			return true;
-		} else {
-			return false;
-		}
+		return $bind;
+	}
+	
+	public static function auth($user, $password){
+		self::connect();
+		$bind = ldap_bind(self::$ldap, "uid=$user," . sfConfig::get('app_ldap_dn'), $password);
 		
+		return $bind;
 	}
 }
